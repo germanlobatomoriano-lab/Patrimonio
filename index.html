@@ -3,176 +3,470 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Patrimonio — NAV Terminal v3</title>
+<title>NAV Terminal — Patrimonio Familiar</title>
 <style>
-:root{
-  --mono:'SF Mono','Cascadia Code','Consolas',monospace;
-  --sans:-apple-system,'Segoe UI',Roboto,sans-serif;
-  --tr:background-color 0.5s ease,color 0.5s ease,border-color 0.5s ease,box-shadow 0.5s ease;
+:root {
+  --mono: 'SF Mono','Cascadia Code','Consolas', monospace;
+  --sans: -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --tr: background-color .5s ease, color .5s ease, border-color .5s ease, box-shadow .5s ease, opacity .5s ease;
 }
-body{
-  --bg:#0a0e14;--panel:#11161d;--panel2:#161b22;
-  --border:rgba(255,255,255,0.08);--border-s:rgba(255,255,255,0.15);
-  --text:#c9d1d9;--dim:#6e7681;--mid:#8b949e;
-  --accent:#79c0ff;--a2:#f7c948;--a3:#56d4dd;
-  --green:#7ee787;--red:#ff7b72;--purp:#a78bfa;
-  --sh:0 1px 3px rgba(0,0,0,.4);--sh2:0 4px 16px rgba(0,0,0,.5);
-  --glow:0 0 0 transparent;
+
+/* ══════════════════════════════════════════
+   MODO FAMILY OFFICE — Madera / Clásico
+   ══════════════════════════════════════════ */
+body {
+  --bg:       #120c08;
+  --bg2:      #1c1208;
+  --panel:    #1e1509;
+  --panel2:   #261a0c;
+  --panel3:   #2e200f;
+  --border:   rgba(210,160,90,.12);
+  --border-s: rgba(210,160,90,.25);
+  --border-h: rgba(210,160,90,.45);
+  --text:     #e8dcc8;
+  --text-dim: #8a7a62;
+  --text-mid: #b8a882;
+  --accent:   #c9913d;   /* bronce/oro */
+  --accent2:  #e4c97e;   /* dorado claro */
+  --accent3:  #8fb4a0;   /* sage / verde institucional */
+  --green:    #6fa882;
+  --red:      #c26a56;
+  --purp:     #c9913d;   /* mismo oro para highlights */
+  --gold:     #e4c97e;
+  --silver:   #c0c8d0;
+  --sh:       0 2px 8px rgba(0,0,0,.5);
+  --sh2:      0 4px 20px rgba(0,0,0,.6);
+  --sh3:      0 0 0px transparent;
+  --glow:     0 0 0 transparent;
+  --radius:   10px;
+  --radius-lg:14px;
 }
-body.personal-mode{
-  --bg:#0a0a1f;--panel:rgba(40,35,90,.28);--panel2:rgba(60,50,130,.22);
-  --border:rgba(167,139,250,.18);--border-s:rgba(167,139,250,.35);
-  --text:#e6e3fa;--dim:#7d77a8;--mid:#a8a3d6;
-  --accent:#a78bfa;--a2:#67e8f9;--a3:#c4b5fd;
-  --green:#6ee7b7;--red:#fb7185;--purp:#c4b5fd;
-  --sh:0 4px 24px rgba(124,58,237,.18);--sh2:0 8px 40px rgba(124,58,237,.28);
-  --glow:0 0 14px rgba(167,139,250,.4);
+
+/* ══════════════════════════════════════════
+   MODO PERSONAL — Trading Terminal / Índigo
+   ══════════════════════════════════════════ */
+body.personal-mode {
+  --bg:       #060610;
+  --bg2:      #08091a;
+  --panel:    rgba(18,16,60,.70);
+  --panel2:   rgba(28,22,80,.60);
+  --panel3:   rgba(40,30,100,.55);
+  --border:   rgba(120,100,255,.18);
+  --border-s: rgba(140,120,255,.32);
+  --border-h: rgba(170,150,255,.55);
+  --text:     #ddd8f8;
+  --text-dim: #6860a8;
+  --text-mid: #9b94cc;
+  --accent:   #8b7cf8;   /* violeta eléctrico */
+  --accent2:  #40d4f0;   /* cyan */
+  --accent3:  #c084fc;   /* morado */
+  --green:    #34d399;
+  --red:      #f87171;
+  --purp:     #a78bfa;
+  --gold:     #fbbf24;
+  --silver:   #94a3b8;
+  --sh:       0 4px 20px rgba(80,60,220,.18);
+  --sh2:      0 8px 36px rgba(80,60,220,.28);
+  --sh3:      0 0 24px rgba(120,100,255,.14);
+  --glow:     0 0 16px rgba(139,124,248,.40);
+  --radius:   11px;
+  --radius-lg:16px;
 }
-*{box-sizing:border-box;margin:0;padding:0;}
-html,body{min-height:100vh;}
-body{
-  background:var(--bg);color:var(--text);font-family:var(--sans);
-  padding:1.25rem;max-width:1160px;margin:0 auto;transition:var(--tr);
+
+/* ── Reset & base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { min-height: 100vh; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 13px;
+  padding: 1.4rem 1.6rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  transition: var(--tr);
+  line-height: 1.5;
 }
-body.personal-mode{
-  background-image:radial-gradient(circle at 15% 0%,rgba(124,58,237,.16),transparent 45%),
-    radial-gradient(circle at 85% 100%,rgba(34,211,238,.10),transparent 45%);
-  background-attachment:fixed;
+body.personal-mode {
+  background-image:
+    radial-gradient(ellipse at 10% 0%, rgba(90,60,220,.18) 0%, transparent 50%),
+    radial-gradient(ellipse at 90% 100%, rgba(20,180,220,.12) 0%, transparent 50%);
+  background-attachment: fixed;
 }
 
 /* ── Topbar ── */
-.topbar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;
-  border-bottom:.5px solid var(--border-s);padding-bottom:.9rem;margin-bottom:1.1rem;transition:var(--tr);}
-.brand{font-size:13px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;transition:var(--tr);}
-.brand small{display:block;font-size:10px;color:var(--dim);font-weight:400;margin-top:2px;transition:var(--tr);}
-.actions{display:flex;gap:7px;flex-wrap:wrap;}
-button{
-  background:var(--panel);color:var(--text);border:.5px solid var(--border-s);
-  border-radius:8px;padding:7px 13px;font-size:11px;font-family:var(--sans);
-  cursor:pointer;transition:var(--tr),transform .1s;box-shadow:var(--sh);
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  border-bottom: .5px solid var(--border-s);
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  transition: var(--tr);
 }
-button:hover{filter:brightness(1.15);}
-button:active{transform:scale(.97);}
-button.primary{border-color:var(--accent);color:var(--accent);}
-button.danger{border-color:var(--red);color:var(--red);}
-button.sync{border-color:var(--green);color:var(--green);font-weight:700;}
-button.sync:disabled{border-color:var(--dim);color:var(--dim);cursor:wait;}
-button.mode-switch{border-color:var(--a3);color:var(--a3);font-weight:700;box-shadow:var(--sh2);}
-body.personal-mode button.mode-switch{background:linear-gradient(135deg,rgba(167,139,250,.18),rgba(103,232,249,.10));}
-input[type=file]{display:none;}
+.brand { font-size: 13px; font-weight: 700; color: var(--accent2); text-transform: uppercase; letter-spacing: .1em; transition: var(--tr); }
+.brand small { display: block; font-size: 10px; color: var(--text-dim); font-weight: 400; margin-top: 2px; letter-spacing: .04em; transition: var(--tr); }
+.actions { display: flex; gap: 6px; flex-wrap: wrap; }
 
-/* ── Mode banner ── */
-.banner{font-size:11px;font-family:var(--mono);padding:7px 13px;border-radius:8px;
-  margin-bottom:1rem;border:.5px solid var(--border);background:var(--panel);
-  color:var(--mid);transition:var(--tr);box-shadow:var(--sh);}
-body.personal-mode .banner{color:var(--a3);}
+button {
+  background: var(--panel2);
+  color: var(--text);
+  border: .5px solid var(--border-s);
+  border-radius: 7px;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-family: var(--sans);
+  cursor: pointer;
+  transition: var(--tr), transform .1s;
+  box-shadow: var(--sh);
+  letter-spacing: .02em;
+}
+button:hover { filter: brightness(1.18); }
+button:active { transform: scale(.97); }
+button.btn-primary { border-color: var(--accent); color: var(--accent); }
+button.btn-mode {
+  border-color: var(--accent2);
+  color: var(--accent2);
+  font-weight: 700;
+  box-shadow: var(--sh2);
+  letter-spacing: .03em;
+}
+button.btn-sync { border-color: var(--green); color: var(--green); font-weight: 600; }
+button.btn-sync:disabled { border-color: var(--text-dim); color: var(--text-dim); cursor: wait; }
+button.btn-danger { border-color: var(--red); color: var(--red); }
+input[type=file] { display: none; }
+
+/* ── Banner ── */
+.banner {
+  font-size: 10.5px;
+  font-family: var(--mono);
+  padding: 6px 12px;
+  border-radius: var(--radius);
+  margin-bottom: .9rem;
+  border: .5px solid var(--border);
+  background: var(--panel);
+  color: var(--text-mid);
+  transition: var(--tr);
+  box-shadow: var(--sh);
+  letter-spacing: .02em;
+}
+body.personal-mode .banner { color: var(--accent2); box-shadow: var(--sh3); }
 
 /* ── KPI grid ── */
-.kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-bottom:1.1rem;}
-.kpi-card{background:var(--panel);border:.5px solid var(--border);border-radius:12px;
-  padding:13px 15px;box-shadow:var(--sh);transition:var(--tr);backdrop-filter:blur(6px);}
-.kpi-label{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.05em;margin-bottom:7px;transition:var(--tr);}
-.kpi-value{font-size:22px;font-weight:700;font-family:var(--mono);transition:var(--tr);text-shadow:var(--glow);}
-.kpi-sub{font-size:11px;margin-top:5px;font-family:var(--mono);color:var(--dim);transition:var(--tr);}
-.kpi-proj{font-size:10px;margin-top:3px;font-family:var(--mono);color:var(--purp);transition:var(--tr);}
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+.kpi-card {
+  background: var(--panel);
+  border: .5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 13px 15px;
+  box-shadow: var(--sh);
+  transition: var(--tr);
+  backdrop-filter: blur(8px);
+  position: relative;
+  overflow: hidden;
+}
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  opacity: .5;
+  transition: var(--tr);
+}
+.kpi-label { font-size: 9.5px; color: var(--text-dim); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 7px; transition: var(--tr); }
+.kpi-value {
+  font-size: 21px;
+  font-weight: 700;
+  font-family: var(--mono);
+  transition: var(--tr);
+  text-shadow: var(--glow);
+  letter-spacing: -.02em;
+}
+.kpi-sub { font-size: 10px; margin-top: 5px; font-family: var(--mono); color: var(--text-dim); transition: var(--tr); }
+.kpi-proj { font-size: 10px; margin-top: 3px; font-family: var(--mono); color: var(--purp); transition: var(--tr); font-weight: 600; }
 
 /* ── Panels ── */
-.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin-bottom:1.1rem;}
-.panel{background:var(--panel);border:.5px solid var(--border);border-radius:14px;
-  padding:15px 17px;box-shadow:var(--sh);transition:var(--tr);backdrop-filter:blur(6px);margin-bottom:1.1rem;}
-.panel-title{font-size:11px;font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:.06em;margin-bottom:11px;transition:var(--tr);}
-.leg-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:9px;font-size:11px;color:var(--mid);font-family:var(--mono);transition:var(--tr);}
-.leg-dot{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;vertical-align:-1px;}
+.g2 { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; margin-bottom: 1rem; }
+.g3 { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 10px; margin-bottom: 1rem; }
+.panel {
+  background: var(--panel);
+  border: .5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+  box-shadow: var(--sh);
+  transition: var(--tr);
+  backdrop-filter: blur(8px);
+  margin-bottom: 1rem;
+}
+body.personal-mode .panel { box-shadow: var(--sh), var(--sh3); }
+.panel-title {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-mid);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  margin-bottom: 10px;
+  transition: var(--tr);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.panel-title::before {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 12px;
+  border-radius: 2px;
+  background: var(--accent);
+  transition: var(--tr);
+}
+.leg-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; font-size: 10.5px; color: var(--text-mid); font-family: var(--mono); transition: var(--tr); }
+.leg-dot { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 4px; vertical-align: -1px; }
 
 /* ── Edit panel ── */
-.edit-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;}
-.asset-block{background:var(--panel2);border:.5px solid var(--border);border-radius:12px;
-  padding:13px 15px;transition:var(--tr);box-shadow:var(--sh);}
-.asset-block h3{font-size:11px;font-weight:700;margin-bottom:9px;text-transform:uppercase;letter-spacing:.05em;transition:var(--tr);}
-.asset-block.a h3{color:var(--accent);}
-.asset-block.b h3{color:var(--a2);}
-.asset-block.c h3{color:var(--a3);}
-.fr{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;gap:8px;}
-.fr label{font-size:11px;color:var(--mid);flex:1;transition:var(--tr);}
-.fr input{background:var(--bg);border:.5px solid var(--border-s);border-radius:6px;
-  color:var(--text);font-family:var(--mono);font-size:11px;padding:4px 7px;
-  width:110px;text-align:right;transition:var(--tr);}
-.fr input:focus{outline:none;border-color:var(--accent);}
-.fr select{background:var(--bg);border:.5px solid var(--border-s);border-radius:6px;
-  color:var(--text);font-family:var(--sans);font-size:11px;padding:4px 7px;width:135px;transition:var(--tr);}
-.debt-display{font-size:12px;font-family:var(--mono);color:var(--red);margin-top:4px;padding:5px 8px;
-  background:rgba(255,123,114,.08);border-radius:6px;border:.5px solid rgba(255,123,114,.2);transition:var(--tr);}
+.edit-grid { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 10px; }
+.asset-block {
+  background: var(--panel2);
+  border: .5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 13px;
+  transition: var(--tr);
+  box-shadow: var(--sh);
+}
+.asset-block h3 { font-size: 10px; font-weight: 700; margin-bottom: 9px; text-transform: uppercase; letter-spacing: .06em; transition: var(--tr); }
+.asset-block.a h3 { color: var(--accent); }
+.asset-block.b h3 { color: var(--accent2); }
+.asset-block.c h3 { color: #4ade80; }
+.asset-block.d h3 { color: var(--gold); }
+.asset-block.e h3 { color: var(--silver); }
+
+.fr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; gap: 6px; }
+.fr label { font-size: 10.5px; color: var(--text-mid); flex: 1; transition: var(--tr); }
+.fr input {
+  background: var(--bg2);
+  border: .5px solid var(--border-s);
+  border-radius: 5px;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 3px 6px;
+  width: 95px;
+  text-align: right;
+  transition: var(--tr);
+}
+.fr input:focus { outline: none; border-color: var(--accent2); }
+.fr select {
+  background: var(--bg2);
+  border: .5px solid var(--border-s);
+  border-radius: 5px;
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 10.5px;
+  padding: 3px 6px;
+  width: 115px;
+  transition: var(--tr);
+}
+.debt-display {
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--red);
+  margin-top: 4px;
+  padding: 4px 7px;
+  background: rgba(255,100,80,.07);
+  border-radius: 5px;
+  border: .5px solid rgba(255,100,80,.18);
+  transition: var(--tr);
+}
 
 /* ── Simulation panel ── */
-.sim-panel{background:var(--panel);border:.5px solid var(--border-s);border-radius:14px;
-  padding:15px 17px;box-shadow:var(--sh2);transition:var(--tr);backdrop-filter:blur(6px);margin-bottom:1.1rem;}
-.sim-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px;}
-.sim-title{font-size:11px;font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:.06em;transition:var(--tr);}
-.sim-year{font-size:26px;font-weight:800;font-family:var(--mono);color:var(--purp);text-shadow:var(--glow);transition:var(--tr);}
-.sim-year small{font-size:12px;font-weight:400;color:var(--dim);}
-.slider-wrap{flex:1;min-width:200px;}
-input[type=range]{
-  width:100%;-webkit-appearance:none;appearance:none;height:4px;
-  background:linear-gradient(to right,var(--purp) 0%,var(--purp) 0%,var(--border-s) 0%);
-  border-radius:4px;outline:none;transition:var(--tr);cursor:pointer;
+.sim-panel {
+  background: var(--panel);
+  border: .5px solid var(--border-s);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+  box-shadow: var(--sh2);
+  transition: var(--tr);
+  backdrop-filter: blur(8px);
+  margin-bottom: 1rem;
 }
-input[type=range]::-webkit-slider-thumb{
-  -webkit-appearance:none;width:18px;height:18px;border-radius:50%;
-  background:var(--purp);box-shadow:0 0 6px rgba(167,139,250,.5);border:2px solid var(--bg);cursor:pointer;
+body.personal-mode .sim-panel { box-shadow: var(--sh2), var(--sh3); }
+.sim-top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
+.sim-title { font-size: 10px; font-weight: 700; color: var(--text-mid); text-transform: uppercase; letter-spacing: .08em; transition: var(--tr); }
+.sim-year { font-size: 24px; font-weight: 800; font-family: var(--mono); color: var(--purp); text-shadow: var(--glow); transition: var(--tr); }
+.sim-year small { font-size: 11px; font-weight: 400; color: var(--text-dim); }
+.slider-wrap { flex: 1; min-width: 200px; }
+input[type=range] {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 3px;
+  background: var(--border-s);
+  border-radius: 3px;
+  outline: none;
+  transition: var(--tr);
+  cursor: pointer;
 }
-.sim-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:10px;}
-.sim-stat{background:var(--panel2);border:.5px solid var(--border);border-radius:9px;padding:10px 12px;transition:var(--tr);}
-.sim-stat-label{font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px;}
-.sim-stat-val{font-size:16px;font-weight:700;font-family:var(--mono);transition:var(--tr);text-shadow:var(--glow);}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--purp);
+  box-shadow: 0 0 8px rgba(167,139,250,.5);
+  border: 2px solid var(--bg);
+  cursor: pointer;
+}
+.sim-stats { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 7px; margin-top: 10px; }
+.sim-stat {
+  background: var(--panel2);
+  border: .5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 9px 11px;
+  transition: var(--tr);
+}
+.sim-stat-label { font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 4px; }
+.sim-stat-val { font-size: 14px; font-weight: 700; font-family: var(--mono); transition: var(--tr); text-shadow: var(--glow); }
 
 /* ── Balance sheet ── */
-table.bs{width:100%;font-size:11px;font-family:var(--mono);border-collapse:collapse;}
-table.bs th{text-align:left;color:var(--dim);font-weight:700;font-size:9px;text-transform:uppercase;
-  letter-spacing:.04em;padding:7px 7px;border-bottom:.5px solid var(--border);transition:var(--tr);}
-table.bs td{padding:9px 7px;border-bottom:.5px solid rgba(255,255,255,.04);color:var(--text);transition:var(--tr);}
-table.bs th:not(:first-child),table.bs td:not(:first-child){text-align:right;}
-.tag{display:inline-block;padding:2px 7px;border-radius:6px;font-size:9px;font-weight:700;transition:var(--tr);}
-.tag-a{background:rgba(121,192,255,.15);color:var(--accent);}
-.tag-b{background:rgba(247,201,72,.15);color:var(--a2);}
-.tag-c{background:rgba(167,139,250,.18);color:var(--a3);}
-.row-total td{border-top:1px solid var(--border-s);font-weight:700;padding-top:12px;transition:var(--tr);}
-.pos{color:var(--green);}.neg{color:var(--red);}
-.fn{font-size:10px;color:var(--dim);margin-top:.8rem;line-height:1.6;font-family:var(--mono);transition:var(--tr);}
+table.bs { width: 100%; font-size: 11px; font-family: var(--mono); border-collapse: collapse; }
+table.bs th {
+  text-align: left; color: var(--text-dim); font-weight: 600; font-size: 9px;
+  text-transform: uppercase; letter-spacing: .05em; padding: 7px 6px;
+  border-bottom: .5px solid var(--border); transition: var(--tr);
+}
+table.bs td { padding: 8px 6px; border-bottom: .5px solid rgba(255,255,255,.03); color: var(--text); transition: var(--tr); }
+table.bs th:not(:first-child), table.bs td:not(:first-child) { text-align: right; }
+.tag { display: inline-block; padding: 2px 7px; border-radius: 5px; font-size: 9px; font-weight: 700; transition: var(--tr); font-family: var(--sans); }
+.tag-re   { background: rgba(201,145,61,.15); color: var(--accent); }
+.tag-sp   { background: rgba(74,222,128,.13); color: #4ade80; }
+.tag-gold { background: rgba(228,201,126,.15); color: var(--gold); }
+.tag-silv { background: rgba(192,200,208,.13); color: var(--silver); }
+.row-total td { border-top: .5px solid var(--border-s); font-weight: 700; padding-top: 11px; transition: var(--tr); }
+.pos { color: var(--green); }
+.neg { color: var(--red); }
+.fn { font-size: 9.5px; color: var(--text-dim); margin-top: .7rem; line-height: 1.7; font-family: var(--mono); transition: var(--tr); }
 
-@media(max-width:720px){
-  .kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
-  .g2{grid-template-columns:1fr;}
-  .edit-grid{grid-template-columns:1fr;}
-  .sim-stats{grid-template-columns:repeat(2,minmax(0,1fr));}
-  table.bs{font-size:9px;}
-  .fr input{width:80px;}
+/* ── Asset mini cards (Personal mode) ── */
+.asset-cards { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; margin-bottom: 1rem; }
+.asset-card {
+  background: var(--panel);
+  border: .5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 13px 15px;
+  box-shadow: var(--sh);
+  transition: var(--tr);
+  backdrop-filter: blur(8px);
+}
+.asset-card-title { font-size: 10px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-mid); margin-bottom: 6px; font-weight: 600; }
+.asset-card-value { font-size: 20px; font-weight: 700; font-family: var(--mono); text-shadow: var(--glow); margin-bottom: 3px; }
+.asset-card-sub { font-size: 10px; color: var(--text-dim); font-family: var(--mono); }
+
+/* ── TradingView section ── */
+.tv-section {
+  display: none;
+  margin-bottom: 1rem;
+}
+.tv-section.visible { display: block; }
+.tv-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+.tv-tab {
+  background: var(--panel2);
+  border: .5px solid var(--border);
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-size: 10.5px;
+  font-family: var(--sans);
+  color: var(--text-mid);
+  cursor: pointer;
+  transition: var(--tr);
+  letter-spacing: .03em;
+}
+.tv-tab:hover { border-color: var(--border-s); color: var(--text); }
+.tv-tab.active {
+  background: var(--panel3);
+  border-color: var(--accent2);
+  color: var(--accent2);
+  font-weight: 600;
+}
+.tv-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 8px;
+}
+.tv-chart-wrap {
+  background: var(--panel);
+  border: .5px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--sh), var(--sh3);
+  transition: var(--tr);
+}
+.tv-chart-label {
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  padding: 7px 12px 0;
+  color: var(--text-mid);
+  font-family: var(--sans);
+  transition: var(--tr);
+}
+.tv-chart-label span {
+  display: inline-block;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  margin-right: 5px;
+  vertical-align: -1px;
+}
+@media (max-width: 860px) {
+  .tv-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 860px) {
+  .kpi-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .g2, .g3 { grid-template-columns: 1fr; }
+  .edit-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .sim-stats { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .asset-cards { grid-template-columns: 1fr; }
+  table.bs { font-size: 9.5px; }
+  .fr input { width: 75px; }
 }
 </style>
 </head>
 <body>
 
 <div class="topbar">
-  <div class="brand">NAV Terminal <span style="color:var(--purp);font-size:10px;vertical-align:2px;">v3</span>
+  <div class="brand">NAV Terminal
     <small id="brandSub">Family Office · Patrimonio consolidado</small>
   </div>
   <div class="actions">
-    <button id="btnEdit" class="primary">✎ Editar</button>
-    <button id="btnMode" class="mode-switch">→ Modo Personal</button>
-    <button id="btnExport">↓ Export</button>
-    <button id="btnImport">↑ Import</button>
-    <button id="btnReset" class="danger">↺ Reset</button>
-    <button id="btnSync" class="sync">☁ Sincronizar Sheets</button>
+    <button class="btn-primary" id="btnEdit">✎ Editar</button>
+    <button class="btn-mode"    id="btnMode">◐ Modo Personal</button>
+    <button class="btn-sync"    id="btnSync">☁ Sincronizar</button>
+    <button                     id="btnExport">↓ Export</button>
+    <button                     id="btnImport">↑ Import</button>
+    <button class="btn-danger"  id="btnReset">↺ Reset</button>
     <input type="file" id="fileInput" accept=".json">
   </div>
 </div>
-<div class="banner" id="banner">Modo Family Office — vista consolidada · Simulación en Año 0</div>
 
-<!-- KPIs -->
+<div class="banner" id="banner">Modo Family Office — 5 activos consolidados · Año de simulación 0</div>
+
+<!-- ── KPI CARDS ── -->
 <div class="kpi-grid">
   <div class="kpi-card">
     <div class="kpi-label" id="lGAV">Gross Asset Value</div>
     <div class="kpi-value" style="color:var(--accent)" id="vGAV">—</div>
-    <div class="kpi-sub" id="sGAV">3 activos</div>
+    <div class="kpi-sub" id="sGAV">5 activos</div>
     <div class="kpi-proj" id="pGAV"></div>
   </div>
   <div class="kpi-card">
@@ -188,80 +482,125 @@ table.bs th:not(:first-child),table.bs td:not(:first-child){text-align:right;}
     <div class="kpi-proj" id="pNAV"></div>
   </div>
   <div class="kpi-card">
-    <div class="kpi-label" id="lFCF">Total Free Cash Flow</div>
+    <div class="kpi-label" id="lFCF">Aportación / FCF anual</div>
     <div class="kpi-value" style="color:var(--green)" id="vFCF">—</div>
-    <div class="kpi-sub" id="sFCF">anual combinado</div>
+    <div class="kpi-sub" id="sFCF">combinado</div>
     <div class="kpi-proj" id="pFCF"></div>
   </div>
 </div>
 
-<!-- Edit panel -->
-<div class="panel" id="editPanel" style="display:none;margin-bottom:1.1rem;">
-  <div class="panel-title">Editar parámetros</div>
-  <div class="edit-grid">
-    <div class="asset-block a">
-      <h3>Activo A — Cádiz / San Francisco</h3>
-      <div class="fr"><label>Nombre</label><input type="text" id="a_nombre" style="width:150px;text-align:left"></div>
-      <div class="fr"><label>Estrategia</label>
-        <select id="a_estrategia">
-          <option value="defensiva">Foso defensivo</option>
-          <option value="cashcow">Ahorro forzoso</option>
-          <option value="indexacion">Indexación</option>
-          <option value="otra">Otra</option>
-        </select>
-      </div>
-      <div class="fr"><label>VMA actual (€)</label><input type="number" id="a_vma"></div>
-      <div class="fr"><label>Deuda viva (€)</label><input type="number" id="a_deuda"></div>
-      <div class="fr"><label>FCF / NOI anual (€)</label><input type="number" id="a_fcf"></div>
-    </div>
-    <div class="asset-block b">
-      <h3>Activo B — Puerto Real / Las Canteras</h3>
-      <div class="fr"><label>Nombre</label><input type="text" id="b_nombre" style="width:150px;text-align:left"></div>
-      <div class="fr"><label>VMA actual (€)</label><input type="number" id="b_vma"></div>
-      <div class="fr"><label>Meses transcurridos de hipoteca</label><input type="number" id="b_meses" min="0" max="120" step="1"></div>
-      <div class="debt-display" id="b_deuda_display">Deuda viva calculada: —</div>
-      <div class="fr" style="margin-top:8px"><label>FCF anual (€)</label><input type="number" id="b_fcf"></div>
-      <div class="fr"><label>Parámetros hipoteca</label><span style="font-size:10px;color:var(--dim);font-family:var(--mono)">100k€ · 2% · 10a</span></div>
-    </div>
-    <div class="asset-block c">
-      <h3>Activo C — Cartera Skilio</h3>
-      <div class="fr"><label>Nombre</label><input type="text" id="c_nombre" style="width:150px;text-align:left"></div>
-      <div class="fr"><label>Estrategia</label>
-        <select id="c_estrategia">
-          <option value="indexacion">Indexación / Crecimiento</option>
-          <option value="defensiva">Foso defensivo</option>
-          <option value="cashcow">Ahorro forzoso</option>
-          <option value="otra">Otra</option>
-        </select>
-      </div>
-      <div class="fr"><label>VMA actual (€)</label><input type="number" id="c_vma"></div>
-      <div class="fr"><label>Aportación anual (€)</label><input type="number" id="c_fcf"></div>
-      <div class="fr"><label>Retorno esperado anual</label><input type="number" id="c_ret" step="0.1"></div>
-    </div>
+<!-- ── ASSET MINI CARDS (personal mode only) ── -->
+<div class="asset-cards" id="assetCards" style="display:none">
+  <div class="asset-card">
+    <div class="asset-card-title">S&P 500</div>
+    <div class="asset-card-value" style="color:#4ade80" id="ac_val">—</div>
+    <div class="asset-card-sub" id="ac_sub">Aportación: —</div>
   </div>
-  <div class="fn">Cambios guardados automáticamente en localStorage · Exporta JSON para backup · La deuda de Puerto Real se calcula con amortización francesa (cuota constante PMT)</div>
+  <div class="asset-card">
+    <div class="asset-card-title">ETF Oro</div>
+    <div class="asset-card-value" style="color:var(--gold)" id="ad_val">—</div>
+    <div class="asset-card-sub" id="ad_sub">Aportación: —</div>
+  </div>
+  <div class="asset-card">
+    <div class="asset-card-title">ETF Plata</div>
+    <div class="asset-card-value" style="color:var(--silver)" id="ae_val">—</div>
+    <div class="asset-card-sub" id="ae_sub">Aportación: —</div>
+  </div>
 </div>
 
-<!-- Charts allocation + capital -->
+<!-- ── EDIT PANEL ── -->
+<div class="panel" id="editPanel" style="display:none;margin-bottom:1rem;">
+  <div class="panel-title">Editar parámetros de activos</div>
+  <div class="edit-grid">
+    <!-- A -->
+    <div class="asset-block a">
+      <h3>A — Cádiz</h3>
+      <div class="fr"><label>Nombre</label><input type="text" id="a_nombre" style="width:110px;text-align:left"></div>
+      <div class="fr"><label>VMA (€)</label><input type="number" id="a_vma"></div>
+      <div class="fr"><label>Deuda (€)</label><input type="number" id="a_deuda"></div>
+      <div class="fr"><label>FCF/NOI (€)</label><input type="number" id="a_fcf"></div>
+    </div>
+    <!-- B -->
+    <div class="asset-block b">
+      <h3>B — Puerto Real</h3>
+      <div class="fr"><label>Nombre</label><input type="text" id="b_nombre" style="width:110px;text-align:left"></div>
+      <div class="fr"><label>VMA (€)</label><input type="number" id="b_vma"></div>
+      <div class="fr"><label>Meses hipoteca</label><input type="number" id="b_meses" min="0" max="120"></div>
+      <div class="debt-display" id="b_deuda_display">Deuda: —</div>
+      <div class="fr" style="margin-top:7px"><label>FCF (€)</label><input type="number" id="b_fcf"></div>
+      <div style="font-size:9.5px;color:var(--text-dim);margin-top:4px;font-family:var(--mono)">100k€ · 2% · 10 años</div>
+    </div>
+    <!-- C -->
+    <div class="asset-block c">
+      <h3>C — S&P 500</h3>
+      <div class="fr"><label>VMA (€)</label><input type="number" id="c_vma"></div>
+      <div class="fr"><label>Aportación anual (€)</label><input type="number" id="c_fcf"></div>
+      <div class="fr"><label>Retorno esperado %</label><input type="number" id="c_ret" step="0.1"></div>
+    </div>
+    <!-- D -->
+    <div class="asset-block d">
+      <h3>D — ETF Oro</h3>
+      <div class="fr"><label>VMA (€)</label><input type="number" id="d_vma"></div>
+      <div class="fr"><label>Aportación anual (€)</label><input type="number" id="d_fcf"></div>
+      <div class="fr"><label>Retorno esperado %</label><input type="number" id="d_ret" step="0.1"></div>
+    </div>
+    <!-- E -->
+    <div class="asset-block e">
+      <h3>E — ETF Plata</h3>
+      <div class="fr"><label>VMA (€)</label><input type="number" id="e_vma"></div>
+      <div class="fr"><label>Aportación anual (€)</label><input type="number" id="e_fcf"></div>
+      <div class="fr"><label>Retorno esperado %</label><input type="number" id="e_ret" step="0.1"></div>
+    </div>
+  </div>
+  <div class="fn">Los cambios se guardan automáticamente en localStorage. Exporta JSON como backup.</div>
+</div>
+
+<!-- ── TRADINGVIEW MARKETS (personal mode only) ── -->
+<div class="tv-section" id="tvSection">
+  <div class="panel" style="margin-bottom:8px;padding:12px 16px;">
+    <div class="panel-title">Mercados en Tiempo Real</div>
+    <div class="tv-grid" id="tvGrid">
+      <!-- S&P 500 -->
+      <div class="tv-chart-wrap">
+        <div class="tv-chart-label"><span style="background:#4ade80"></span>S&P 500 · SPY</div>
+        <div id="tv_spy" style="height:220px"></div>
+      </div>
+      <!-- ETF Oro -->
+      <div class="tv-chart-wrap">
+        <div class="tv-chart-label"><span style="background:#fbbf24"></span>ETF Oro · GLD</div>
+        <div id="tv_gld" style="height:220px"></div>
+      </div>
+      <!-- ETF Plata -->
+      <div class="tv-chart-wrap">
+        <div class="tv-chart-label"><span style="background:#94a3b8"></span>ETF Plata · SLV</div>
+        <div id="tv_slv" style="height:220px"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CHARTS ROW ── -->
 <div class="g2">
   <div class="panel" style="margin-bottom:0">
-    <div class="panel-title" id="tDonut">Asset allocation (% sobre GAV)</div>
-    <div style="position:relative;height:190px"><canvas id="donutChart"></canvas></div>
+    <div class="panel-title" id="tDonut">Asset Allocation (% GAV)</div>
+    <div style="position:relative;height:200px"><canvas id="donutChart"></canvas></div>
     <div class="leg-row" id="legDonut"></div>
   </div>
   <div class="panel" style="margin-bottom:0">
-    <div class="panel-title" id="tStack">Estructura de capital global</div>
-    <div style="position:relative;height:190px"><canvas id="stackChart"></canvas></div>
+    <div class="panel-title" id="tStack">Estructura de Capital</div>
+    <div style="position:relative;height:200px"><canvas id="stackChart"></canvas></div>
     <div class="leg-row" id="legStack"></div>
   </div>
 </div>
 
-<!-- ══ SIMULATION PANEL ══ -->
+<!-- ── SIMULATION PANEL ── -->
 <div class="sim-panel">
   <div class="sim-top">
     <div>
       <div class="sim-title">⏱ Máquina del Tiempo — Proyección Patrimonial</div>
-      <div style="font-size:10px;color:var(--dim);margin-top:3px;font-family:var(--mono)">Revalorización inmuebles: 2%/año · Cartera Skilio: <span id="retLabel">8%</span>/año compuesto + aportación anual · Puerto Real: amortización francesa</div>
+      <div style="font-size:9.5px;color:var(--text-dim);margin-top:3px;font-family:var(--mono)" id="simSubtitle">
+        Inmuebles: +2%/año · S&P500: <span id="ret_c">8</span>% · Oro: <span id="ret_d">5</span>% · Plata: <span id="ret_e">6</span>% · Hipoteca: amort. francesa
+      </div>
     </div>
     <div style="text-align:right">
       <div class="sim-year">Año <span id="sliderVal">0</span><small> / 30</small></div>
@@ -272,42 +611,46 @@ table.bs th:not(:first-child),table.bs td:not(:first-child){text-align:right;}
   </div>
   <div class="sim-stats">
     <div class="sim-stat">
-      <div class="sim-stat-label">GAV proyectado</div>
+      <div class="sim-stat-label">GAV proy.</div>
       <div class="sim-stat-val" style="color:var(--accent)" id="pSimGAV">—</div>
     </div>
     <div class="sim-stat">
-      <div class="sim-stat-label">Deuda Puerto Real</div>
+      <div class="sim-stat-label">Deuda B</div>
       <div class="sim-stat-val" style="color:var(--red)" id="pSimDebt">—</div>
     </div>
     <div class="sim-stat">
-      <div class="sim-stat-label">NAV proyectado</div>
+      <div class="sim-stat-label">NAV proy.</div>
       <div class="sim-stat-val" id="pSimNAV">—</div>
     </div>
     <div class="sim-stat">
-      <div class="sim-stat-label">Cartera Skilio</div>
-      <div class="sim-stat-val" style="color:var(--a3)" id="pSimSkilio">—</div>
+      <div class="sim-stat-label">S&P 500</div>
+      <div class="sim-stat-val" style="color:#4ade80" id="pSimC">—</div>
+    </div>
+    <div class="sim-stat">
+      <div class="sim-stat-label">Oro + Plata</div>
+      <div class="sim-stat-val" style="color:var(--gold)" id="pSimDE">—</div>
     </div>
   </div>
 </div>
 
-<!-- Evolution line chart -->
+<!-- ── LINE CHART ── -->
 <div class="panel">
-  <div class="panel-title" id="tLine">Evolución patrimonial — 30 años</div>
+  <div class="panel-title" id="tLine">Evolución Patrimonial — 30 años</div>
   <div style="position:relative;height:280px"><canvas id="lineChart"></canvas></div>
   <div class="leg-row" id="legLine"></div>
 </div>
 
-<!-- Balance sheet -->
+<!-- ── BALANCE SHEET ── -->
 <div class="panel">
-  <div class="panel-title" id="tBS">Balance sheet — situación actual</div>
+  <div class="panel-title" id="tBS">Balance Sheet</div>
   <table class="bs">
     <thead><tr>
-      <th>Activo</th><th>Estrategia</th><th>VMA</th>
-      <th>Deuda</th><th>Equity</th><th>FCF</th><th>ROE</th><th>Ret. total*</th>
+      <th>Activo</th><th>Clase</th><th>VMA</th>
+      <th>Deuda</th><th>Equity</th><th>FCF/Aport.</th><th>ROE</th>
     </tr></thead>
     <tbody id="bsBody"></tbody>
   </table>
-  <div class="fn">* Retorno total = (FCF + amortización de principal del año) / Equity · La deuda de B se recalcula dinámicamente con amortización francesa: Principal 100.000€, TIN 2%, 120 meses</div>
+  <div class="fn">* Deuda B calculada con amortización francesa: 100.000€ al 2% TIN, 120 meses · ROE = FCF / Equity · En Modo Personal solo se muestran los activos líquidos (C, D, E)</div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
@@ -315,31 +658,30 @@ table.bs th:not(:first-child),table.bs td:not(:first-child){text-align:right;}
 // ═══════════════════════════════════════════════════════════════
 //  CONSTANTS
 // ═══════════════════════════════════════════════════════════════
-const MORT = { P: 100000, TIN: 0.02, N: 120 }; // hipoteca fija Puerto Real
-const REVAL_RE = 0.02;   // revalorización inmuebles anual
-const STORAGE_KEY = 'navTerminalV3';
+const MORT      = { P: 100000, TIN: 0.02, N: 120 };
+const REVAL_RE  = 0.02;
+const SKEY      = 'navTerminalV4';
+
+// Asset colors (stable across modes)
+const COLORS = {
+  a: '#c9913d',  // bronce — Cádiz
+  b: '#e4c97e',  // dorado — Puerto Real
+  c: '#4ade80',  // verde — S&P 500
+  d: '#fbbf24',  // gold  — ETF Oro
+  e: '#94a3b8',  // plata — ETF Plata
+};
 
 // ═══════════════════════════════════════════════════════════════
-//  FRENCH AMORTIZATION ENGINE
+//  FRENCH AMORTIZATION
 // ═══════════════════════════════════════════════════════════════
-function pmt(P, tin_anual, n_meses) {
-  const r = tin_anual / 12;
-  return P * r / (1 - Math.pow(1 + r, -n_meses));
+function pmt(P, tin, n)  { const r=tin/12; return P*r/(1-Math.pow(1+r,-n)); }
+function capitalVivo(P, tin, n, mes) {
+  if (mes >= n) return 0;
+  const r=tin/12, c=pmt(P,tin,n);
+  return P*Math.pow(1+r,mes) - c*(Math.pow(1+r,mes)-1)/r;
 }
-
-function capitalPendiente(P, tin_anual, n_meses, mes_actual) {
-  // capital pendiente tras mes_actual pagos
-  if (mes_actual >= n_meses) return 0;
-  const r = tin_anual / 12;
-  const cuota = pmt(P, tin_anual, n_meses);
-  return P * Math.pow(1 + r, mes_actual) - cuota * (Math.pow(1 + r, mes_actual) - 1) / r;
-}
-
-function amortizacionAnio1(P, tin_anual, n_meses, mes_inicio) {
-  // principal amortizado en los primeros 12 meses desde mes_inicio
-  const fin = Math.min(mes_inicio + 12, n_meses);
-  const ini = Math.min(mes_inicio, n_meses);
-  return capitalPendiente(P, tin_anual, n_meses, ini) - capitalPendiente(P, tin_anual, n_meses, fin);
+function amortAnio(P, tin, n, mes0) {
+  return capitalVivo(P,tin,n,Math.min(mes0,n)) - capitalVivo(P,tin,n,Math.min(mes0+12,n));
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -348,16 +690,11 @@ function amortizacionAnio1(P, tin_anual, n_meses, mes_inicio) {
 const DEFAULT = {
   personalMode: false,
   simYear: 0,
-  a: { nombre: 'Cádiz — San Francisco', estrategia: 'defensiva', vma: 550000, deuda: 0, fcf: 21000, amort: 0 },
-  b: { nombre: 'Puerto Real — Las Canteras', estrategia: 'cashcow', vma: 195750, meses: 0, fcf: 1199 },
-  c: { nombre: 'Cartera Skilio', estrategia: 'indexacion', vma: 0, fcf: 0, ret: 8 }
-};
-
-const STRAT = {
-  defensiva: { text: 'Foso defensivo', cls: 'tag-a' },
-  cashcow:   { text: 'Ahorro forzoso', cls: 'tag-b' },
-  indexacion:{ text: 'Indexación', cls: 'tag-c' },
-  otra:      { text: 'Otra', cls: 'tag-a' }
+  a: { nombre:'Cádiz — San Francisco', vma:550000, deuda:0, fcf:21000 },
+  b: { nombre:'Puerto Real — Las Canteras', vma:195750, meses:0, fcf:1199 },
+  c: { nombre:'S&P 500', vma:0, fcf:0, ret:8 },
+  d: { nombre:'ETF Oro', vma:0, fcf:0, ret:5 },
+  e: { nombre:'ETF Plata', vma:0, fcf:0, ret:6 },
 };
 
 let data = loadData();
@@ -365,537 +702,569 @@ let charts = {};
 
 function loadData() {
   try {
-    const r = localStorage.getItem(STORAGE_KEY);
+    const r = localStorage.getItem(SKEY);
     if (r) {
       const p = JSON.parse(r);
       if (p.a && p.b && p.c) {
-        if (!p.b.meses) p.b.meses = 0;
-        if (!p.c.ret) p.c.ret = 8;
+        ['b','c','d','e'].forEach(k => { if(!p[k]) p[k]=JSON.parse(JSON.stringify(DEFAULT[k])); });
+        if (!p.d) p.d = JSON.parse(JSON.stringify(DEFAULT.d));
+        if (!p.e) p.e = JSON.parse(JSON.stringify(DEFAULT.e));
         if (typeof p.simYear !== 'number') p.simYear = 0;
+        if (typeof p.personalMode !== 'boolean') p.personalMode = false;
         return p;
       }
     }
   } catch(e) {}
   return JSON.parse(JSON.stringify(DEFAULT));
 }
-
-function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
+function save() { localStorage.setItem(SKEY, JSON.stringify(data)); }
 
 // ═══════════════════════════════════════════════════════════════
-//  COMPUTE (current state)
+//  COMPUTE
 // ═══════════════════════════════════════════════════════════════
 function compute() {
-  const a = data.a, b = data.b, c = data.c;
+  const {a,b,c,d,e} = data;
   const pm = !!data.personalMode;
+  const bDeuda = capitalVivo(MORT.P, MORT.TIN, MORT.N, b.meses);
+  const bAmort = amortAnio(MORT.P, MORT.TIN, MORT.N, b.meses);
 
-  // B: deuda calculada dinámicamente
-  const bDeuda = capitalPendiente(MORT.P, MORT.TIN, MORT.N, b.meses);
-  const bAmort = amortizacionAnio1(MORT.P, MORT.TIN, MORT.N, b.meses);
+  const all = [
+    { key:'a', d:a, deuda:a.deuda||0 },
+    { key:'b', d:b, deuda:bDeuda },
+    { key:'c', d:c, deuda:0 },
+    { key:'d', d:d, deuda:0 },
+    { key:'e', d:e, deuda:0 },
+  ];
+  const included = pm ? all.filter(x=>!['a','b'].includes(x.key)) : all;
 
-  const included = [];
-  if (!pm) { included.push({ key:'a', d:a, deuda:a.deuda||0 }); included.push({ key:'b', d:b, deuda:bDeuda }); }
-  included.push({ key:'c', d:c, deuda:0 });
+  const gav     = included.reduce((s,x)=>s+x.d.vma,0);
+  const debt    = included.reduce((s,x)=>s+x.deuda,0);
+  const nav     = gav - debt;
+  const fcfTot  = included.reduce((s,x)=>s+x.d.fcf,0);
+  const ltv     = gav>0 ? debt/gav*100 : 0;
+  const navPct  = gav>0 ? nav/gav*100  : 0;
 
-  const gav = included.reduce((s,x) => s + x.d.vma, 0);
-  const debt = included.reduce((s,x) => s + x.deuda, 0);
-  const nav = gav - debt;
-  const fcfTotal = included.reduce((s,x) => s + x.d.fcf, 0);
-  const ltv = gav > 0 ? debt/gav*100 : 0;
-  const navPct = gav > 0 ? nav/gav*100 : 0;
+  const eqA = a.vma-(a.deuda||0), eqB = b.vma-bDeuda;
+  const eqC = c.vma, eqD = d.vma, eqE = e.vma;
+  const roeA = eqA>0 ? a.fcf/eqA*100 : 0;
+  const roeB = eqB>0 ? b.fcf/eqB*100 : 0;
+  const roeC = eqC>0 ? c.fcf/eqC*100 : 0;
+  const roeD = eqD>0 ? d.fcf/eqD*100 : 0;
+  const roeE = eqE>0 ? e.fcf/eqE*100 : 0;
 
-  const eqA = a.vma - (a.deuda||0);
-  const eqB = b.vma - bDeuda;
-  const eqC = c.vma;
-
-  const roeA = eqA > 0 ? a.fcf/eqA*100 : 0;
-  const roeB = eqB > 0 ? b.fcf/eqB*100 : 0;
-  const roeC = eqC > 0 ? c.fcf/eqC*100 : 0;
-  const retA = eqA > 0 ? (a.fcf+(a.amort||0))/eqA*100 : 0;
-  const retB = eqB > 0 ? (b.fcf+bAmort)/eqB*100 : 0;
-  const retC = roeC;
-
-  const eqTotal = nav;
-  const roeTotal = eqTotal > 0 ? fcfTotal/eqTotal*100 : 0;
-
-  return { a, b, c, pm, included, gav, debt, nav, fcfTotal, ltv, navPct,
-    eqA, eqB, eqC, roeA, roeB, roeC, retA, retB, retC, eqTotal, roeTotal,
-    bDeuda, bAmort };
+  return { a,b,c,d,e, pm, included, gav, debt, nav, fcfTot, ltv, navPct,
+    eqA,eqB,eqC,eqD,eqE, roeA,roeB,roeC,roeD,roeE, bDeuda, bAmort };
 }
 
 // ═══════════════════════════════════════════════════════════════
-//  PROJECT (future state at year Y)
+//  PROJECT
 // ═══════════════════════════════════════════════════════════════
 function project(yr) {
-  const a = data.a, b = data.b, c = data.c;
+  const {a,b,c,d,e} = data;
   const pm = !!data.personalMode;
 
-  // A: revalorización 2% anual
-  const aVmaP = a.vma * Math.pow(1 + REVAL_RE, yr);
+  const aVp = a.vma * Math.pow(1+REVAL_RE, yr);
+  const mesFut = Math.min(b.meses + yr*12, MORT.N);
+  const bDeudaP = capitalVivo(MORT.P, MORT.TIN, MORT.N, mesFut);
+  const bVp = b.vma * Math.pow(1+REVAL_RE, yr);
 
-  // B: deuda proyectada
-  const mesFuturo = Math.min(b.meses + yr * 12, MORT.N);
-  const bDeudaP = capitalPendiente(MORT.P, MORT.TIN, MORT.N, mesFuturo);
-  const bVmaP = b.vma * Math.pow(1 + REVAL_RE, yr);
-
-  // C: interés compuesto con aportación anual iterada
-  const ret = (c.ret || 8) / 100;
-  let cVmaP = c.vma;
-  for (let i = 0; i < yr; i++) {
-    cVmaP = cVmaP * (1 + ret) + c.fcf;
+  function compound(vma, fcf, ret, y) {
+    let v=vma; for(let i=0;i<y;i++) v=v*(1+ret/100)+fcf; return v;
   }
+  const cVp = compound(c.vma, c.fcf, c.ret, yr);
+  const dVp = compound(d.vma, d.fcf, d.ret, yr);
+  const eVp = compound(e.vma, e.fcf, e.ret, yr);
 
-  const incl = [];
-  if (!pm) { incl.push({ vma: aVmaP, deuda: a.deuda||0 }); incl.push({ vma: bVmaP, deuda: bDeudaP }); }
-  incl.push({ vma: cVmaP, deuda: 0 });
+  const incl = pm
+    ? [{vma:cVp,deuda:0},{vma:dVp,deuda:0},{vma:eVp,deuda:0}]
+    : [{vma:aVp,deuda:a.deuda||0},{vma:bVp,deuda:bDeudaP},{vma:cVp,deuda:0},{vma:dVp,deuda:0},{vma:eVp,deuda:0}];
 
-  const pGav = incl.reduce((s,x) => s + x.vma, 0);
-  const pDebt = incl.reduce((s,x) => s + x.deuda, 0);
-  const pNav = pGav - pDebt;
-
-  return { pGav, pDebt, pNav, aVmaP, bVmaP, bDeudaP, cVmaP };
+  const pGav  = incl.reduce((s,x)=>s+x.vma,0);
+  const pDebt = incl.reduce((s,x)=>s+x.deuda,0);
+  return { pGav, pDebt, pNav:pGav-pDebt, aVp, bVp, bDeudaP, cVp, dVp, eVp };
 }
 
 // ═══════════════════════════════════════════════════════════════
-//  SERIES for line chart (0..30)
+//  BUILD SERIES (0..30)
 // ═══════════════════════════════════════════════════════════════
 function buildSeries() {
-  const years = Array.from({length:31},(_,i)=>i);
-  const navRE=[], deudaRE=[], skilio=[];
+  const yrs=[...Array(31).keys()];
+  const navRE=[], deudaRE=[], spArr=[], goldArr=[], silvArr=[], liquidTot=[];
 
-  const a = data.a, b = data.b, c = data.c;
-  const ret = (c.ret||8)/100;
+  function compound(vma, fcf, ret, y) {
+    let v=vma; for(let i=0;i<y;i++) v=v*(1+ret/100)+fcf; return v;
+  }
+  const {a,b,c,d,e} = data;
 
-  years.forEach(yr => {
-    const aV = a.vma * Math.pow(1+REVAL_RE, yr);
-    const mes = Math.min(b.meses + yr*12, MORT.N);
-    const bD = capitalPendiente(MORT.P, MORT.TIN, MORT.N, mes);
-    const bV = b.vma * Math.pow(1+REVAL_RE, yr);
-    const nav = (aV - (a.deuda||0)) + (bV - bD);
-    navRE.push(Math.round(nav));
+  yrs.forEach(yr => {
+    const aV = a.vma*Math.pow(1+REVAL_RE,yr);
+    const mes = Math.min(b.meses+yr*12, MORT.N);
+    const bD  = capitalVivo(MORT.P, MORT.TIN, MORT.N, mes);
+    const bV  = b.vma*Math.pow(1+REVAL_RE,yr);
+    navRE.push  (Math.round((aV-(a.deuda||0))+(bV-bD)));
     deudaRE.push(Math.round(bD));
-    let cV = c.vma;
-    for (let i=0;i<yr;i++) cV = cV*(1+ret)+c.fcf;
-    skilio.push(Math.round(cV));
+    const cV = compound(c.vma,c.fcf,c.ret,yr);
+    const dV = compound(d.vma,d.fcf,d.ret,yr);
+    const eV = compound(e.vma,e.fcf,e.ret,yr);
+    spArr.push  (Math.round(cV));
+    goldArr.push(Math.round(dV));
+    silvArr.push(Math.round(eV));
+    liquidTot.push(Math.round(cV+dV+eV));
   });
-
-  return { years, navRE, deudaRE, skilio };
+  return { yrs, navRE, deudaRE, spArr, goldArr, silvArr, liquidTot };
 }
 
 // ═══════════════════════════════════════════════════════════════
 //  UTILS
 // ═══════════════════════════════════════════════════════════════
-const fmtE = n => '€'+Math.round(n).toLocaleString('es-ES');
-const fmtP = n => n.toFixed(2).replace('.', ',')+' %';
+const fE = n => '€'+Math.round(n).toLocaleString('es-ES');
+const fP = n => n.toFixed(2).replace('.',',')+' %';
 const css = v => getComputedStyle(document.body).getPropertyValue(v).trim();
-function esc(s){ return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+function esc(s) { return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
 
 // ═══════════════════════════════════════════════════════════════
 //  RENDER
 // ═══════════════════════════════════════════════════════════════
 function render() {
-  const c = compute();
-  const yr = data.simYear || 0;
-  const p = project(yr);
-  const pm = c.pm;
+  const cv = compute();
+  const yr = data.simYear||0;
+  const pj = project(yr);
+  const pm = cv.pm;
 
-  // theme
+  // Theme
   document.body.classList.toggle('personal-mode', pm);
 
-  // brand / banner
-  document.getElementById('brandSub').textContent = pm ? 'Inversor Personal · Cartera Skilio' : 'Family Office · Patrimonio consolidado';
-  document.getElementById('btnMode').textContent = pm ? '← Modo Family Office' : '→ Modo Personal';
+  // Brand / banner
+  document.getElementById('brandSub').textContent = pm
+    ? 'Inversor Personal · Cartera Líquida'
+    : 'Family Office · Patrimonio consolidado';
+  document.getElementById('btnMode').textContent = pm
+    ? '◑ Modo Family Office'
+    : '◐ Modo Personal';
   document.getElementById('banner').textContent = pm
-    ? `Modo Inversor Personal — solo Skilio · Simulación Año ${yr}`
-    : `Modo Family Office — 3 activos consolidados · Simulación Año ${yr}`;
+    ? `Modo Personal — S&P500, ETF Oro, ETF Plata · Simulación Año ${yr}`
+    : `Modo Family Office — 5 activos consolidados · Simulación Año ${yr}`;
 
   // KPI labels
   document.getElementById('lGAV').textContent  = pm ? 'Portfolio Value' : 'Gross Asset Value';
-  document.getElementById('lDEBT').textContent = pm ? 'Apalancamiento' : 'Total Liabilities';
-  document.getElementById('lNAV').textContent  = pm ? 'Patrimonio Neto' : 'Net Asset Value';
-  document.getElementById('lFCF').textContent  = pm ? 'Aportación Anual' : 'Total Free Cash Flow';
+  document.getElementById('lDEBT').textContent = pm ? 'Apalancamiento'  : 'Total Liabilities';
+  document.getElementById('lNAV').textContent  = pm ? 'Valor Neto Líq.' : 'Net Asset Value';
+  document.getElementById('lFCF').textContent  = pm ? 'Aportación Anual': 'FCF / Aportación';
 
-  // KPI current values
-  document.getElementById('vGAV').textContent  = fmtE(c.gav);
-  document.getElementById('vDEBT').textContent = fmtE(c.debt);
-  document.getElementById('sDEBT').textContent = 'LTV '+fmtP(c.ltv);
-  document.getElementById('vNAV').textContent  = fmtE(c.nav);
-  document.getElementById('sNAV').textContent  = fmtP(c.navPct)+' del '+(pm?'valor':'GAV');
-  document.getElementById('vFCF').textContent  = fmtE(c.fcfTotal);
-  document.getElementById('sFCF').textContent  = (pm?'Skilio · ':'combinado · ')+'ROE '+fmtP(c.roeTotal);
-  document.getElementById('sGAV').textContent  = pm ? '1 activo' : '3 activos';
+  // KPI values
+  document.getElementById('vGAV').textContent  = fE(cv.gav);
+  document.getElementById('vDEBT').textContent = fE(cv.debt);
+  document.getElementById('sDEBT').textContent = 'LTV '+fP(cv.ltv);
+  document.getElementById('vNAV').textContent  = fE(cv.nav);
+  document.getElementById('sNAV').textContent  = fP(cv.navPct)+' del '+(pm?'valor':'GAV');
+  document.getElementById('vFCF').textContent  = fE(cv.fcfTot);
+  document.getElementById('sFCF').textContent  = (pm?'cartera liq. · ':'consolidado · ')+fP(cv.gav>0?cv.fcfTot/cv.gav*100:0)+' yield';
+  document.getElementById('sGAV').textContent  = pm ? '3 activos líquidos' : '5 activos';
 
-  // KPI projected deltas
-  if (yr > 0) {
-    document.getElementById('pGAV').textContent  = '▸ Año '+yr+': '+fmtE(p.pGav);
-    document.getElementById('pDEBT').textContent = '▸ Deuda: '+fmtE(p.pDebt);
-    document.getElementById('pNAV').textContent  = '▸ NAV: '+fmtE(p.pNav);
-    document.getElementById('pFCF').textContent  = '▸ Skilio: '+fmtE(p.cVmaP);
+  // Projected KPIs
+  if (yr>0) {
+    document.getElementById('pGAV').textContent  = '▸ '+fE(pj.pGav);
+    document.getElementById('pDEBT').textContent = '▸ '+fE(pj.pDebt);
+    document.getElementById('pNAV').textContent  = '▸ '+fE(pj.pNav);
+    document.getElementById('pFCF').textContent  = '▸ liq.: '+fE(pj.cVp+pj.dVp+pj.eVp);
   } else {
     ['pGAV','pDEBT','pNAV','pFCF'].forEach(id=>document.getElementById(id).textContent='');
   }
 
-  // Debt display for edit panel
-  document.getElementById('b_deuda_display').textContent =
-    'Deuda viva calculada: '+fmtE(c.bDeuda)+' (mes '+data.b.meses+' / 120)';
-
-  // Simulation panel
-  document.getElementById('sliderVal').textContent = yr;
-  document.getElementById('pSimGAV').textContent   = fmtE(p.pGav);
-  document.getElementById('pSimDebt').textContent  = fmtE(p.pDebt);
-  document.getElementById('pSimNAV').textContent   = fmtE(p.pNav);
-  document.getElementById('pSimSkilio').textContent = fmtE(p.cVmaP);
-  document.getElementById('retLabel').textContent   = (data.c.ret||8)+'%';
-
-  // update slider gradient
-  const slEl = document.getElementById('slider');
-  const pct = (yr/30)*100;
-  slEl.style.background = `linear-gradient(to right,var(--purp) ${pct}%,var(--border-s) ${pct}%)`;
-
-  // panel titles
-  document.getElementById('tDonut').textContent = pm ? 'Composición cartera' : 'Asset allocation (% GAV)';
-  document.getElementById('tStack').textContent = pm ? 'Estructura capital — Skilio' : 'Estructura de capital global';
-  document.getElementById('tLine').textContent  = pm ? 'Proyección Skilio — 30 años' : 'Evolución patrimonial — 30 años';
-  document.getElementById('tBS').textContent    = pm ? 'Balance sheet — cartera personal' : 'Balance sheet — situación actual';
-
-  // Color map
-  const colorMap = { a:css('--accent'), b:css('--a2'), c:css('--a3') };
-  const nameMap  = { a:c.a.nombre, b:c.b.nombre, c:c.c.nombre };
-
-  // Donut legend
-  let dLeg='';
-  c.included.forEach(it=>{
-    const pct2 = c.gav>0 ? it.d.vma/c.gav*100 : 0;
-    dLeg+=`<span><span class="leg-dot" style="background:${colorMap[it.key]}"></span>${esc(nameMap[it.key])} — ${fmtE(it.d.vma)} (${fmtP(pct2)})</span>`;
-  });
-  document.getElementById('legDonut').innerHTML = dLeg;
-
-  // Stack legend
-  const gC=css('--green'), rC=css('--red');
-  document.getElementById('legStack').innerHTML =
-    `<span><span class="leg-dot" style="background:${gC}"></span>Equity — ${fmtE(c.eqTotal)} (${fmtP(c.navPct)})</span>`+
-    `<span><span class="leg-dot" style="background:${rC}"></span>Deuda — ${fmtE(c.debt)} (${fmtP(100-c.navPct)})</span>`;
-
-  // Line legend
-  if (!pm) {
-    document.getElementById('legLine').innerHTML =
-      `<span><span class="leg-dot" style="background:${css('--accent')}"></span>NAV Inmobiliario</span>`+
-      `<span><span class="leg-dot" style="background:${css('--red')}"></span>Deuda Puerto Real</span>`+
-      `<span><span class="leg-dot" style="background:${css('--a3')}"></span>Cartera Skilio</span>`;
+  // ── TradingView section visibility ──
+  const tvSection = document.getElementById('tvSection');
+  if (pm) {
+    tvSection.classList.add('visible');
+    initTradingViewWidgets();
   } else {
-    document.getElementById('legLine').innerHTML =
-      `<span><span class="leg-dot" style="background:${css('--a3')}"></span>Cartera Skilio (interés compuesto ${data.c.ret||8}%/año)</span>`;
+    tvSection.classList.remove('visible');
   }
+
+  // Asset mini cards (personal mode)
+  document.getElementById('assetCards').style.display = pm ? 'grid' : 'none';
+  if (pm) {
+    document.getElementById('ac_val').textContent = fE(data.c.vma);
+    document.getElementById('ac_sub').textContent = `Aportación: ${fE(data.c.fcf)}/año · ret. ${data.c.ret||8}%`;
+    document.getElementById('ad_val').textContent = fE(data.d.vma);
+    document.getElementById('ad_sub').textContent = `Aportación: ${fE(data.d.fcf)}/año · ret. ${data.d.ret||5}%`;
+    document.getElementById('ae_val').textContent = fE(data.e.vma);
+    document.getElementById('ae_sub').textContent = `Aportación: ${fE(data.e.fcf)}/año · ret. ${data.e.ret||6}%`;
+  }
+
+  // Debt display
+  document.getElementById('b_deuda_display').textContent =
+    `Deuda calculada: ${fE(cv.bDeuda)} (mes ${data.b.meses}/120)`;
+
+  // Sim panel
+  document.getElementById('sliderVal').textContent  = yr;
+  document.getElementById('pSimGAV').textContent    = fE(pj.pGav);
+  document.getElementById('pSimDebt').textContent   = fE(pj.bDeudaP);
+  document.getElementById('pSimNAV').textContent    = fE(pj.pNav);
+  document.getElementById('pSimC').textContent      = fE(pj.cVp);
+  document.getElementById('pSimDE').textContent     = fE(pj.dVp+pj.eVp);
+  document.getElementById('ret_c').textContent      = data.c.ret||8;
+  document.getElementById('ret_d').textContent      = data.d.ret||5;
+  document.getElementById('ret_e').textContent      = data.e.ret||6;
+
+  const slEl = document.getElementById('slider');
+  const pct  = (yr/30)*100;
+  slEl.style.background = `linear-gradient(to right,${css('--purp')} ${pct}%,${css('--border-s')} ${pct}%)`;
+
+  // Panel titles
+  document.getElementById('tDonut').textContent = pm ? 'Composición Cartera Líquida' : 'Asset Allocation (% GAV)';
+  document.getElementById('tStack').textContent = pm ? 'Estructura Capital — Activos Líquidos' : 'Estructura de Capital Global';
+  document.getElementById('tLine').textContent  = pm ? 'Proyección Cartera Líquida — 30 años' : 'Evolución Patrimonial — 30 años';
+  document.getElementById('tBS').textContent    = pm ? 'Balance Sheet — Cartera Personal' : 'Balance Sheet — Patrimonio Consolidado';
 
   // Balance sheet
-  const sa = STRAT[c.a.estrategia]||STRAT.otra;
-  const sb = STRAT[c.b.estrategia]||STRAT.otra;
-  const sc2 = STRAT[c.c.estrategia]||STRAT.otra;
-  let rows='';
+  let rows = '';
   if (!pm) {
-    rows+=`<tr>
-      <td>${esc(c.a.nombre)}</td><td><span class="tag ${sa.cls}">${sa.text}</span></td>
-      <td>${fmtE(c.a.vma)}</td><td>${fmtE(c.a.deuda||0)}</td><td>${fmtE(c.eqA)}</td>
-      <td class="pos">${fmtE(c.a.fcf)}</td><td class="pos">${fmtP(c.roeA)}</td><td class="pos">${fmtP(c.retA)}</td>
-    </tr>
-    <tr>
-      <td>${esc(c.b.nombre)}</td><td><span class="tag ${sb.cls}">${sb.text}</span></td>
-      <td>${fmtE(c.b.vma)}</td><td class="neg">${fmtE(c.bDeuda)}</td><td>${fmtE(c.eqB)}</td>
-      <td class="pos">${fmtE(c.b.fcf)}</td><td class="pos">${fmtP(c.roeB)}</td><td class="pos">${fmtP(c.retB)}</td>
+    rows += `<tr>
+      <td>${esc(cv.a.nombre)}</td><td><span class="tag tag-re">Inmueble</span></td>
+      <td>${fE(cv.a.vma)}</td><td>${fE(cv.a.deuda||0)}</td><td>${fE(cv.eqA)}</td>
+      <td class="pos">${fE(cv.a.fcf)}</td><td class="pos">${fP(cv.roeA)}</td>
+    </tr><tr>
+      <td>${esc(cv.b.nombre)}</td><td><span class="tag tag-re">Inmueble</span></td>
+      <td>${fE(cv.b.vma)}</td><td class="neg">${fE(cv.bDeuda)}</td><td>${fE(cv.eqB)}</td>
+      <td class="pos">${fE(cv.b.fcf)}</td><td class="pos">${fP(cv.roeB)}</td>
     </tr>`;
   }
-  rows+=`<tr>
-    <td>${esc(c.c.nombre)}</td><td><span class="tag ${sc2.cls}">${sc2.text}</span></td>
-    <td>${fmtE(c.c.vma)}</td><td>${fmtE(0)}</td><td>${fmtE(c.eqC)}</td>
-    <td class="pos">${fmtE(c.c.fcf)}</td><td class="pos">${fmtP(c.roeC)}</td><td class="pos">${fmtP(c.retC)}</td>
+  rows += `<tr>
+    <td>${esc(cv.c.nombre)}</td><td><span class="tag tag-sp">Renta Variable</span></td>
+    <td>${fE(cv.c.vma)}</td><td>—</td><td>${fE(cv.eqC)}</td>
+    <td class="pos">${fE(cv.c.fcf)}</td><td class="pos">${fP(cv.roeC)}</td>
+  </tr><tr>
+    <td>${esc(cv.d.nombre)}</td><td><span class="tag tag-gold">Mat. Prima</span></td>
+    <td>${fE(cv.d.vma)}</td><td>—</td><td>${fE(cv.eqD)}</td>
+    <td class="pos">${fE(cv.d.fcf)}</td><td class="pos">${fP(cv.roeD)}</td>
+  </tr><tr>
+    <td>${esc(cv.e.nombre)}</td><td><span class="tag tag-silv">Mat. Prima</span></td>
+    <td>${fE(cv.e.vma)}</td><td>—</td><td>${fE(cv.eqE)}</td>
+    <td class="pos">${fE(cv.e.fcf)}</td><td class="pos">${fP(cv.roeE)}</td>
   </tr>`;
   if (!pm) {
-    rows+=`<tr class="row-total">
-      <td>Total consolidado</td><td>—</td><td>${fmtE(c.gav)}</td><td>${fmtE(c.debt)}</td>
-      <td>${fmtE(c.eqTotal)}</td><td class="pos">${fmtE(c.fcfTotal)}</td><td class="pos">${fmtP(c.roeTotal)}</td><td>—</td>
+    const totEq = cv.nav;
+    const totFCF = cv.fcfTot;
+    const totROE = totEq>0 ? totFCF/totEq*100 : 0;
+    rows += `<tr class="row-total">
+      <td>Total consolidado</td><td>—</td><td>${fE(cv.gav)}</td><td>${fE(cv.debt)}</td>
+      <td>${fE(totEq)}</td><td class="pos">${fE(totFCF)}</td><td class="pos">${fP(totROE)}</td>
     </tr>`;
   }
   document.getElementById('bsBody').innerHTML = rows;
 
-  renderCharts(c, p, colorMap, nameMap, gC, rC);
+  renderCharts(cv, pj);
 }
 
 // ═══════════════════════════════════════════════════════════════
 //  CHARTS
 // ═══════════════════════════════════════════════════════════════
-function renderCharts(c, p, colorMap, nameMap, gC, rC) {
-  const pm = c.pm;
-  const grid = pm ? 'rgba(167,139,250,.10)' : 'rgba(255,255,255,.06)';
-  const tick = css('--dim');
+function renderCharts(cv) {
+  const pm   = cv.pm;
+  const grid = pm ? 'rgba(120,100,255,.10)' : 'rgba(210,160,90,.08)';
+  const tick = css('--text-dim');
   const bgC  = css('--bg');
+  const gC   = css('--green');
+  const rC   = css('--red');
 
   // ── Donut ──
+  const dLabels = cv.included.map(x => x.d.nombre);
+  const dValues = cv.included.map(x => x.d.vma);
+  const dColors = cv.included.map(x => COLORS[x.key]);
+
   if (charts.donut) charts.donut.destroy();
-  charts.donut = new Chart(document.getElementById('donutChart'),{
-    type:'doughnut',
-    data:{
-      labels: c.included.map(x=>nameMap[x.key]),
-      datasets:[{ data:c.included.map(x=>x.d.vma), backgroundColor:c.included.map(x=>colorMap[x.key]),
-        borderColor:bgC, borderWidth:2 }]
+  charts.donut = new Chart(document.getElementById('donutChart'), {
+    type: 'doughnut',
+    data: {
+      labels: dLabels,
+      datasets: [{ data: dValues, backgroundColor: dColors, borderColor: bgC, borderWidth: 2 }]
     },
-    options:{ responsive:true, maintainAspectRatio:false, cutout:'65%', animation:{duration:400},
-      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>ctx.label+': '+fmtE(ctx.parsed)+' ('+fmtP(c.gav>0?ctx.parsed/c.gav*100:0)+')'}}} }
+    options: {
+      responsive: true, maintainAspectRatio: false, cutout: '62%', animation: { duration: 450 },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => `${ctx.label}: ${fE(ctx.parsed)} (${fP(cv.gav>0?ctx.parsed/cv.gav*100:0)})` } }
+      }
+    }
   });
+  // Donut legend
+  let dLeg = '';
+  cv.included.forEach(it => {
+    const pct = cv.gav>0 ? it.d.vma/cv.gav*100 : 0;
+    dLeg += `<span><span class="leg-dot" style="background:${COLORS[it.key]}"></span>${esc(it.d.nombre)} ${fP(pct)}</span>`;
+  });
+  document.getElementById('legDonut').innerHTML = dLeg;
 
   // ── Stack ──
   if (charts.stack) charts.stack.destroy();
-  charts.stack = new Chart(document.getElementById('stackChart'),{
-    type:'bar',
-    data:{
-      labels:[pm?'Skilio':'Consolidado'],
-      datasets:[
-        { label:'Equity', data:[c.eqTotal], backgroundColor:gC, borderRadius:4 },
-        { label:'Deuda',  data:[c.debt],    backgroundColor:rC, borderRadius:4 }
+  charts.stack = new Chart(document.getElementById('stackChart'), {
+    type: 'bar',
+    data: {
+      labels: [pm ? 'Cartera líquida' : 'Patrimonio consolidado'],
+      datasets: [
+        { label:'Equity', data:[cv.nav],  backgroundColor: gC, borderRadius: 4 },
+        { label:'Deuda',  data:[cv.debt], backgroundColor: rC, borderRadius: 4 }
       ]
     },
-    options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, animation:{duration:400},
-      scales:{ x:{stacked:true, grid:{color:grid}, ticks:{color:tick, callback:v=>'€'+Math.round(v/1000)+'k'}},
-               y:{stacked:true, grid:{display:false}, ticks:{color:tick}} },
-      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+fmtE(ctx.parsed.x)}}} }
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false, animation: { duration: 450 },
+      scales: {
+        x: { stacked:true, grid:{color:grid}, ticks:{color:tick, callback:v=>'€'+Math.round(v/1000)+'k'} },
+        y: { stacked:true, grid:{display:false}, ticks:{color:tick} }
+      },
+      plugins: { legend:{display:false}, tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${fE(ctx.parsed.x)}`}} }
+    }
   });
+  document.getElementById('legStack').innerHTML =
+    `<span><span class="leg-dot" style="background:${gC}"></span>Equity ${fE(cv.nav)} (${fP(cv.navPct)})</span>` +
+    `<span><span class="leg-dot" style="background:${rC}"></span>Deuda ${fE(cv.debt)} (${fP(100-cv.navPct)})</span>`;
 
   // ── Line chart ──
-  const s = buildSeries();
-  const years = s.years;
-  const aC = css('--accent'), a3C = css('--a3'), rC2 = css('--red');
+  const s  = buildSeries();
+  const yr = data.simYear||0;
 
   const datasets = [];
   if (!pm) {
-    datasets.push({
-      label:'NAV Inmobiliario', data:s.navRE, borderColor:aC,
-      backgroundColor:'rgba(121,192,255,.06)', fill:true, tension:.35, pointRadius:0, pointHoverRadius:4, borderWidth:2
-    });
-    datasets.push({
-      label:'Deuda Puerto Real', data:s.deudaRE, borderColor:rC2,
-      backgroundColor:'rgba(255,123,114,.06)', fill:true, tension:.2, pointRadius:0, pointHoverRadius:4, borderWidth:2, borderDash:[4,3]
-    });
+    datasets.push({ label:'NAV Inmobiliario', data:s.navRE,   borderColor:COLORS.a, backgroundColor:'rgba(201,145,61,.08)', fill:true,  tension:.35, pointRadius:0, pointHoverRadius:4, borderWidth:2 });
+    datasets.push({ label:'Deuda Puerto Real',data:s.deudaRE, borderColor:COLORS.b, backgroundColor:'rgba(228,201,126,.05)',fill:true,  tension:.2,  pointRadius:0, pointHoverRadius:4, borderWidth:1.5, borderDash:[4,3] });
   }
-  datasets.push({
-    label:'Cartera Skilio', data:s.skilio, borderColor:a3C,
-    backgroundColor:pm?'rgba(86,212,221,.10)':'rgba(86,212,221,.06)', fill:pm, tension:.45,
-    pointRadius:0, pointHoverRadius:4, borderWidth:pm?3:2
-  });
+  datasets.push({ label:'S&P 500',  data:s.spArr,   borderColor:COLORS.c, backgroundColor:'rgba(74,222,128,.07)', fill:!pm,  tension:.4, pointRadius:0, pointHoverRadius:4, borderWidth:pm?2.5:2 });
+  datasets.push({ label:'ETF Oro',  data:s.goldArr, borderColor:COLORS.d, backgroundColor:'rgba(251,191,36,.07)', fill:false, tension:.4, pointRadius:0, pointHoverRadius:4, borderWidth:pm?2:1.5 });
+  datasets.push({ label:'ETF Plata',data:s.silvArr, borderColor:COLORS.e, backgroundColor:'rgba(148,163,184,.06)',fill:false, tension:.4, pointRadius:0, pointHoverRadius:4, borderWidth:pm?2:1.5 });
 
-  // vertical cursor at current sim year
-  const yr = data.simYear||0;
   const cursorPlugin = {
-    id:'cursor',
-    beforeDraw(chart){
-      const idx = yr;
+    id: 'cursor',
+    beforeDraw(chart) {
       const meta = chart.getDatasetMeta(0);
-      if (!meta || !meta.data || !meta.data[idx]) return;
-      const x = meta.data[idx].x;
-      const ctx2 = chart.ctx;
+      if (!meta?.data?.[yr]) return;
+      const x = meta.data[yr].x;
       const {top,bottom} = chart.chartArea;
-      ctx2.save();
-      ctx2.setLineDash([3,4]);
-      ctx2.strokeStyle = css('--purp');
-      ctx2.lineWidth = 1.5;
-      ctx2.beginPath(); ctx2.moveTo(x,top); ctx2.lineTo(x,bottom); ctx2.stroke();
-      ctx2.restore();
+      chart.ctx.save();
+      chart.ctx.setLineDash([3,4]);
+      chart.ctx.strokeStyle = css('--purp');
+      chart.ctx.lineWidth = 1.5;
+      chart.ctx.beginPath(); chart.ctx.moveTo(x,top); chart.ctx.lineTo(x,bottom); chart.ctx.stroke();
+      chart.ctx.restore();
     }
   };
 
   if (charts.line) charts.line.destroy();
-  charts.line = new Chart(document.getElementById('lineChart'),{
-    type:'line',
-    data:{ labels:years, datasets },
-    options:{
+  charts.line = new Chart(document.getElementById('lineChart'), {
+    type: 'line',
+    data: { labels: s.yrs, datasets },
+    options: {
       responsive:true, maintainAspectRatio:false, animation:{duration:500},
-      interaction:{ mode:'index', intersect:false },
-      scales:{
-        x:{ grid:{color:grid}, ticks:{color:tick, maxTicksLimit:10, callback:v=>'Año '+v} },
-        y:{ grid:{color:grid}, ticks:{color:tick, callback:v=>'€'+Math.round(v/1000)+'k'} }
+      interaction: { mode:'index', intersect:false },
+      scales: {
+        x: { grid:{color:grid}, ticks:{color:tick, maxTicksLimit:10, callback:v=>'Año '+v} },
+        y: { grid:{color:grid}, ticks:{color:tick, callback:v=>'€'+Math.round(v/1000)+'k'} }
       },
-      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+fmtE(ctx.parsed.y)}} }
+      plugins: { legend:{display:false}, tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${fE(ctx.parsed.y)}`}} }
     },
-    plugins:[cursorPlugin]
+    plugins: [cursorPlugin]
   });
+
+  let lLeg = '';
+  if (!pm) {
+    lLeg += `<span><span class="leg-dot" style="background:${COLORS.a}"></span>NAV Inmobiliario</span>`;
+    lLeg += `<span><span class="leg-dot" style="background:${COLORS.b}"></span>Deuda B</span>`;
+  }
+  lLeg += `<span><span class="leg-dot" style="background:${COLORS.c}"></span>S&P 500</span>`;
+  lLeg += `<span><span class="leg-dot" style="background:${COLORS.d}"></span>ETF Oro</span>`;
+  lLeg += `<span><span class="leg-dot" style="background:${COLORS.e}"></span>ETF Plata</span>`;
+  document.getElementById('legLine').innerHTML = lLeg;
 }
 
 // ═══════════════════════════════════════════════════════════════
 //  FORM
 // ═══════════════════════════════════════════════════════════════
 function populateForm() {
-  document.getElementById('a_nombre').value    = data.a.nombre;
-  document.getElementById('a_estrategia').value= data.a.estrategia;
-  document.getElementById('a_vma').value       = data.a.vma;
-  document.getElementById('a_deuda').value     = data.a.deuda||0;
-  document.getElementById('a_fcf').value       = data.a.fcf;
-  document.getElementById('b_nombre').value    = data.b.nombre;
-  document.getElementById('b_vma').value       = data.b.vma;
-  document.getElementById('b_meses').value     = data.b.meses||0;
-  document.getElementById('b_fcf').value       = data.b.fcf;
-  document.getElementById('c_nombre').value    = data.c.nombre;
-  document.getElementById('c_estrategia').value= data.c.estrategia;
-  document.getElementById('c_vma').value       = data.c.vma;
-  document.getElementById('c_fcf').value       = data.c.fcf;
-  document.getElementById('c_ret').value       = data.c.ret||8;
-  document.getElementById('slider').value      = data.simYear||0;
+  const set = (id,v) => { const el=document.getElementById(id); if(el) el.value=v; };
+  set('a_nombre', data.a.nombre); set('a_vma', data.a.vma); set('a_deuda', data.a.deuda||0); set('a_fcf', data.a.fcf);
+  set('b_nombre', data.b.nombre); set('b_vma', data.b.vma); set('b_meses', data.b.meses||0); set('b_fcf', data.b.fcf);
+  set('c_vma', data.c.vma); set('c_fcf', data.c.fcf); set('c_ret', data.c.ret||8);
+  set('d_vma', data.d.vma); set('d_fcf', data.d.fcf); set('d_ret', data.d.ret||5);
+  set('e_vma', data.e.vma); set('e_fcf', data.e.fcf); set('e_ret', data.e.ret||6);
+  set('slider', data.simYear||0);
 }
 
 function bindForm() {
-  const num = (id,g,k) => document.getElementById(id).addEventListener('input',e=>{
+  const num = (id,g,k) => document.getElementById(id)?.addEventListener('input', e=>{
     data[g][k]=parseFloat(e.target.value)||0; save(); render();
   });
-  const txt = (id,g,k) => document.getElementById(id).addEventListener('input',e=>{
+  const txt = (id,g,k) => document.getElementById(id)?.addEventListener('input', e=>{
     data[g][k]=e.target.value; save(); render();
   });
-  txt('a_nombre','a','nombre'); txt('a_estrategia','a','estrategia');
-  num('a_vma','a','vma'); num('a_deuda','a','deuda'); num('a_fcf','a','fcf');
+  txt('a_nombre','a','nombre'); num('a_vma','a','vma'); num('a_deuda','a','deuda'); num('a_fcf','a','fcf');
   txt('b_nombre','b','nombre'); num('b_vma','b','vma'); num('b_meses','b','meses'); num('b_fcf','b','fcf');
-  txt('c_nombre','c','nombre'); txt('c_estrategia','c','estrategia');
   num('c_vma','c','vma'); num('c_fcf','c','fcf'); num('c_ret','c','ret');
+  num('d_vma','d','vma'); num('d_fcf','d','fcf'); num('d_ret','d','ret');
+  num('e_vma','e','vma'); num('e_fcf','e','fcf'); num('e_ret','e','ret');
 }
 
 // ═══════════════════════════════════════════════════════════════
-//  EVENT LISTENERS
+//  TRADINGVIEW WIDGETS
 // ═══════════════════════════════════════════════════════════════
-document.getElementById('btnEdit').addEventListener('click',()=>{
-  const p=document.getElementById('editPanel');
-  const h=p.style.display==='none';
-  p.style.display=h?'block':'none';
-  document.getElementById('btnEdit').textContent=h?'✕ Cerrar':'✎ Editar';
-});
+let tvInitialized = false;
 
-document.getElementById('btnMode').addEventListener('click',()=>{
-  data.personalMode=!data.personalMode; save(); render();
-});
+function initTradingViewWidgets() {
+  if (tvInitialized) return;
+  tvInitialized = true;
 
-document.getElementById('slider').addEventListener('input',e=>{
-  data.simYear=parseInt(e.target.value); save(); render();
-});
+  const widgets = [
+    { containerId: 'tv_spy', symbol: 'AMEX:SPY',  color: '#4ade80' },
+    { containerId: 'tv_gld', symbol: 'AMEX:GLD',  color: '#fbbf24' },
+    { containerId: 'tv_slv', symbol: 'AMEX:SLV',  color: '#94a3b8' },
+  ];
 
-document.getElementById('btnExport').addEventListener('click',()=>{
+  // Load TradingView script once
+  function loadTVScript(cb) {
+    if (window.TradingView) { cb(); return; }
+    const s = document.createElement('script');
+    s.src = 'https://s3.tradingview.com/tv.js';
+    s.async = true;
+    s.onload = cb;
+    document.head.appendChild(s);
+  }
+
+  loadTVScript(() => {
+    widgets.forEach(({ containerId, symbol, color }) => {
+      const container = document.getElementById(containerId);
+      if (!container || container.querySelector('iframe')) return; // already rendered
+      new window.TradingView.widget({
+        container_id:       containerId,
+        symbol:             symbol,
+        interval:           'D',
+        timezone:           'Europe/Madrid',
+        theme:              'dark',
+        style:              '1',
+        locale:             'es',
+        toolbar_bg:         '#0a0a1f',
+        enable_publishing:  false,
+        hide_top_toolbar:   true,
+        hide_legend:        true,
+        hide_side_toolbar:  true,
+        allow_symbol_change:false,
+        save_image:         false,
+        backgroundColor:    '#060610',
+        gridColor:          'rgba(120,100,255,0.06)',
+        withdateranges:     false,
+        height:             220,
+        width:              '100%',
+        overrides: {
+          'paneProperties.background':          '#060610',
+          'paneProperties.backgroundType':      'solid',
+          'paneProperties.vertGridProperties.color': 'rgba(120,100,255,0.06)',
+          'paneProperties.horzGridProperties.color': 'rgba(120,100,255,0.06)',
+          'mainSeriesProperties.candleStyle.upColor':       color,
+          'mainSeriesProperties.candleStyle.borderUpColor': color,
+          'mainSeriesProperties.candleStyle.wickUpColor':   color,
+          'mainSeriesProperties.lineStyle.color':           color,
+          'mainSeriesProperties.lineStyle.linewidth':       2,
+        },
+        studies_overrides: {},
+        loading_screen: { backgroundColor: '#060610', foregroundColor: color },
+      });
+    });
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  EVENTS
+// ═══════════════════════════════════════════════════════════════
+document.getElementById('btnEdit').addEventListener('click', () => {
+  const p = document.getElementById('editPanel');
+  const h = p.style.display === 'none';
+  p.style.display = h ? 'block' : 'none';
+  document.getElementById('btnEdit').textContent = h ? '✕ Cerrar' : '✎ Editar';
+});
+document.getElementById('btnMode').addEventListener('click',  () => { data.personalMode=!data.personalMode; save(); render(); });
+document.getElementById('slider').addEventListener('input',   e  => { data.simYear=parseInt(e.target.value); save(); render(); });
+document.getElementById('btnExport').addEventListener('click',() => {
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const url=URL.createObjectURL(blob);
-  const a=document.createElement('a'); a.href=url; a.download='patrimonio_v3.json'; a.click();
+  const a=document.createElement('a'); a.href=url; a.download='patrimonio_v4.json'; a.click();
   URL.revokeObjectURL(url);
 });
-
-document.getElementById('btnImport').addEventListener('click',()=>document.getElementById('fileInput').click());
-document.getElementById('fileInput').addEventListener('change',e=>{
+document.getElementById('btnImport').addEventListener('click',() => document.getElementById('fileInput').click());
+document.getElementById('fileInput').addEventListener('change', e => {
   const f=e.target.files[0]; if(!f) return;
   const r=new FileReader();
-  r.onload=ev=>{
-    try{
-      const p=JSON.parse(ev.target.result);
-      if(p.a&&p.b&&p.c){ data=p; save(); populateForm(); render(); }
-      else alert('Formato no válido.');
-    }catch{ alert('No se pudo leer el archivo JSON.'); }
-  };
+  r.onload=ev=>{ try{ const p=JSON.parse(ev.target.result); if(p.a&&p.b){ data=p; save(); populateForm(); render(); }else alert('Formato no válido.'); }catch{ alert('JSON inválido.'); } };
   r.readAsText(f); e.target.value='';
 });
-
-document.getElementById('btnReset').addEventListener('click',()=>{
-  if(confirm('¿Restablecer a valores por defecto?')){
-    data=JSON.parse(JSON.stringify(DEFAULT)); save(); populateForm(); render();
-  }
+document.getElementById('btnReset').addEventListener('click', () => {
+  if(confirm('¿Restablecer valores por defecto?')){ data=JSON.parse(JSON.stringify(DEFAULT)); save(); populateForm(); render(); }
 });
 
 // ═══════════════════════════════════════════════════════════════
 //  GOOGLE SHEETS SYNC
 // ═══════════════════════════════════════════════════════════════
 const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTHZ1NLj4EBEQO2AnabS9v8ijuxwXFAeDZx1xV1TONeHS5c53YoZ8-Gflmt2a7H2g/pub?gid=1599228117&single=true&output=csv";
-
-// Proxy chain — tries each one in order until one works
 const PROXIES = [
-  url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
-  url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
-  url => `https://thingproxy.freeboard.io/fetch/${url}`,
+  u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
+  u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
 ];
 
-async function fetchWithProxy(targetUrl) {
-  for (const makeProxy of PROXIES) {
+async function fetchWithProxy(url) {
+  for (const mk of PROXIES) {
     try {
-      const proxyUrl = makeProxy(targetUrl);
-      const res = await fetch(proxyUrl, { cache: 'no-store' });
-      if (res.ok) {
-        const text = await res.text();
-        if (text && text.trim().length > 0) return text;
-      }
-    } catch(e) {
-      // try next proxy
-    }
+      const res = await fetch(mk(url), { cache:'no-store' });
+      if (res.ok) { const t=await res.text(); if(t?.trim()) return t; }
+    } catch(e) { /* try next */ }
   }
-  throw new Error('Todos los proxies fallaron. Comprueba tu conexión a internet.');
+  throw new Error('Sin conexión o proxies no disponibles');
+}
+
+function parseEuropeanNumber(raw) {
+  return parseFloat(
+    raw.replace(/"/g,'').replace(/[€\s]/g,'').replace(/\./g,'').replace(',','.')
+  );
 }
 
 async function fetchCSV() {
   const btn = document.getElementById('btnSync');
-  btn.textContent = '⟳ Sincronizando...';
+  btn.textContent = '⟳ Cargando...';
   btn.disabled = true;
-
   try {
     const raw = await fetchWithProxy(CSV_URL);
-
-    // Sheet is VERTICAL: col A = key, col B = value (one row per variable)
-    // Values may use European format: "440.755,39 €" → strip everything except digits, comma, minus
     const map = {};
-    const rows = raw.trim().split('\n');
-    rows.forEach(row => {
+    raw.trim().split('\n').forEach(row => {
       const cols = row.split(',');
       if (cols.length < 2) return;
       const key = cols[0].trim().replace(/"/g,'').toLowerCase();
-      // Rejoin remaining cols in case value had commas (e.g. "440.755,39 €" split into multiple)
-      const rawVal = cols.slice(1).join(',').trim().replace(/"/g,'');
-      // Normalise European number: remove thousand-separators (.) and currency/spaces, convert decimal comma
-      // "440.755,39 €" → "440755.39"
-      const normalised = rawVal
-        .replace(/[€\s]/g, '')        // remove € and spaces
-        .replace(/\./g, '')            // remove thousand separator dots
-        .replace(',', '.');            // convert decimal comma to dot
-      const num = parseFloat(normalised);
-      if (key) map[key] = isNaN(num) ? 0 : num;
+      const val = parseEuropeanNumber(cols.slice(1).join(','));
+      if (key) map[key] = isNaN(val) ? 0 : val;
     });
 
-    console.log('CSV map:', map); // debug — check browser console if issues persist
+    // Inmuebles
+    if ('cadiz_vma'          in map) data.a.vma    = map.cadiz_vma;
+    if ('cadiz_fcf'          in map) data.a.fcf    = map.cadiz_fcf;
+    if ('cadiz_deuda'        in map) data.a.deuda  = map.cadiz_deuda;
+    if ('pr_vma'             in map) data.b.vma    = map.pr_vma;
+    if ('pr_fcf'             in map) data.b.fcf    = map.pr_fcf;
+    if ('pr_meses_pagados'   in map) data.b.meses  = map.pr_meses_pagados;
+    // Líquidos
+    if ('sp500_vma'          in map) data.c.vma    = map.sp500_vma;
+    if ('sp500_fcf'          in map) data.c.fcf    = map.sp500_fcf;
+    if ('oro_vma'            in map) data.d.vma    = map.oro_vma;
+    if ('oro_fcf'            in map) data.d.fcf    = map.oro_fcf;
+    if ('plata_vma'          in map) data.e.vma    = map.plata_vma;
+    if ('plata_fcf'          in map) data.e.fcf    = map.plata_fcf;
 
-    const get = key => (key in map ? map[key] : null);
-
-    const cadiz_vma   = get('cadiz_vma');
-    const cadiz_fcf   = get('cadiz_fcf');
-    const cadiz_deuda = get('cadiz_deuda');
-    const pr_vma      = get('pr_vma');
-    const pr_fcf      = get('pr_fcf');
-    const pr_meses    = get('pr_meses_pagados');
-    const skilio_vma  = get('skilio_vma');
-    const skilio_aport= get('skilio_aportacion');
-    const skilio_ret  = get('skilio_retorno');
-
-    if (cadiz_vma   !== null) data.a.vma   = cadiz_vma;
-    if (cadiz_fcf   !== null) data.a.fcf   = cadiz_fcf;
-    if (cadiz_deuda !== null) data.a.deuda = cadiz_deuda;
-    if (pr_vma      !== null) data.b.vma   = pr_vma;
-    if (pr_fcf      !== null) data.b.fcf   = pr_fcf;
-    if (pr_meses    !== null) data.b.meses = pr_meses;
-    if (skilio_vma  !== null) data.c.vma   = skilio_vma;
-    if (skilio_aport!== null) data.c.fcf   = skilio_aport;
-    if (skilio_ret  !== null) data.c.ret   = skilio_ret;
-
-    save();
-    populateForm();
-    render();
-
+    save(); populateForm(); render();
     btn.textContent = '✓ Sincronizado';
     btn.style.borderColor = 'var(--green)';
-    document.getElementById('banner').textContent += ' · ☁ Actualizado ' + new Date().toLocaleTimeString('es-ES');
-    setTimeout(() => { btn.textContent = '☁ Sincronizar Sheets'; btn.style.borderColor = ''; }, 3000);
-
+    document.getElementById('banner').textContent += ' · ☁ '+new Date().toLocaleTimeString('es-ES');
+    setTimeout(() => { btn.textContent='☁ Sincronizar'; btn.style.borderColor=''; }, 3000);
   } catch(err) {
-    console.warn('fetchCSV error:', err);
-    btn.textContent = '✕ Error — ' + err.message;
+    btn.textContent = '✕ '+err.message;
     btn.style.borderColor = 'var(--red)';
-    setTimeout(() => { btn.textContent = '☁ Sincronizar Sheets'; btn.style.borderColor = ''; }, 4000);
+    setTimeout(() => { btn.textContent='☁ Sincronizar'; btn.style.borderColor=''; }, 4000);
   } finally {
     btn.disabled = false;
   }
 }
-
 document.getElementById('btnSync').addEventListener('click', fetchCSV);
 
 // ═══════════════════════════════════════════════════════════════
@@ -904,12 +1273,7 @@ document.getElementById('btnSync').addEventListener('click', fetchCSV);
 populateForm();
 bindForm();
 render();
-
-// Silent sync on load — localStorage already rendered, then overwrite with fresh cloud data
-window.addEventListener('load', () => {
-  fetchCSV().catch(() => {}); // silently fail if offline — localStorage already loaded
-});
+window.addEventListener('load', () => fetchCSV().catch(()=>{}));
 </script>
 </body>
 </html>
-Listo
